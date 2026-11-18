@@ -22,12 +22,12 @@ export interface Side {
 export class TooLargeError extends Error {}
 
 export function maxBytes(): number {
-  return vscode.workspace.getConfiguration('vscodeCompare').get<number>('maxFileSizeMB', 50) * 1024 * 1024;
+  return vscode.workspace.getConfiguration('comparekit').get<number>('maxFileSizeMB', 50) * 1024 * 1024;
 }
 
 function checkSize(bytes: Uint8Array, label: string): Uint8Array {
   if (bytes.byteLength > maxBytes()) {
-    throw new TooLargeError(`${label} is ${Math.round(bytes.byteLength / 1048576)} MB, over the vscodeCompare.maxFileSizeMB limit.`);
+    throw new TooLargeError(`${label} is ${Math.round(bytes.byteLength / 1048576)} MB, over the comparekit.maxFileSizeMB limit.`);
   }
   return bytes;
 }
@@ -43,7 +43,7 @@ export function fileSide(uri: vscode.Uri, label?: string): Side {
     readonly: uri.scheme !== 'file' && uri.scheme !== 'vscode-remote' && uri.scheme !== 'vscode-userdata',
     async read() {
       const stat = await vscode.workspace.fs.stat(uri);
-      if (stat.size > maxBytes()) throw new TooLargeError(`${name} is ${Math.round(stat.size / 1048576)} MB, over the vscodeCompare.maxFileSizeMB limit.`);
+      if (stat.size > maxBytes()) throw new TooLargeError(`${name} is ${Math.round(stat.size / 1048576)} MB, over the comparekit.maxFileSizeMB limit.`);
       return vscode.workspace.fs.readFile(uri);
     },
   };

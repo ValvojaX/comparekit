@@ -115,7 +115,7 @@ export function connect(webview: vscode.Webview, load: () => Promise<InitPayload
 }
 
 export function openPanel(extensionUri: vscode.Uri, title: string, load: () => Promise<InitPayload>, handlers?: Handlers): vscode.WebviewPanel {
-  const panel = vscode.window.createWebviewPanel('vscodeCompare.panel', title, vscode.ViewColumn.Active, webviewOptions(extensionUri));
+  const panel = vscode.window.createWebviewPanel('comparekit.panel', title, vscode.ViewColumn.Active, webviewOptions(extensionUri));
   panel.webview.html = webviewHtml(panel.webview, extensionUri, title);
   const sub = connect(panel.webview, load, handlers);
   panel.onDidDispose(() => sub.dispose());

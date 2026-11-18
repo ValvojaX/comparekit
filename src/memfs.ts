@@ -3,7 +3,7 @@
 
 import * as vscode from 'vscode';
 
-export const MEM_SCHEME = 'vscode-compare-mem';
+export const MEM_SCHEME = 'comparekit-mem';
 
 const files = new Map<string, Uint8Array>();
 let counter = 0;

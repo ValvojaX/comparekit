@@ -1,10 +1,18 @@
 {
-  "name": "vscode-compare",
+  "name": "comparekit",
   "displayName": "Compare Kit",
   "description": "Compare and merge CSV, Excel, image, ZIP and binary files, folders and git revisions. Text keeps VS Code's own diff and merge editors.",
   "version": "0.1.0",
-  "publisher": "vscode-compare",
+  "publisher": "valvojax",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ValvojaX/comparekit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ValvojaX/comparekit/issues"
+  },
+  "homepage": "https://github.com/ValvojaX/comparekit#readme",
   "private": true,
   "engines": {
     "vscode": "^1.100.0"
@@ -30,121 +38,121 @@
   "contributes": {
     "commands": [
       {
-        "command": "vscodeCompare.compareWith",
+        "command": "comparekit.compareWith",
         "title": "Compare with...",
         "category": "Compare",
         "icon": "$(diff)"
       },
       {
-        "command": "vscodeCompare.compareWithRevision",
+        "command": "comparekit.compareWithRevision",
         "title": "Compare with Revision...",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.selectForCompare",
+        "command": "comparekit.selectForCompare",
         "title": "Select for Compare",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.compareWithSelected",
+        "command": "comparekit.compareWithSelected",
         "title": "Compare with Selected",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.compareSelected",
+        "command": "comparekit.compareSelected",
         "title": "Compare Selected",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.openChanges",
+        "command": "comparekit.openChanges",
         "title": "Open Changes (Compare Kit)",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.resolveConflict",
+        "command": "comparekit.resolveConflict",
         "title": "Resolve in Merge Editor (Compare Kit)",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.showAsTable",
+        "command": "comparekit.showAsTable",
         "title": "Show as Table",
         "category": "Compare",
         "icon": "$(table)"
       },
       {
-        "command": "vscodeCompare.compareBranches",
+        "command": "comparekit.compareBranches",
         "title": "Compare Branches...",
         "category": "Compare",
         "icon": "$(git-compare)"
       },
       {
-        "command": "vscodeCompare.compareFolders",
+        "command": "comparekit.compareFolders",
         "title": "Compare Folders...",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.timelineCompareWorking",
+        "command": "comparekit.timelineCompareWorking",
         "title": "Compare with Working Copy (Compare Kit)",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.timelineComparePrevious",
+        "command": "comparekit.timelineComparePrevious",
         "title": "Compare with Previous (Compare Kit)",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.rev.pickRepo",
+        "command": "comparekit.rev.pickRepo",
         "title": "Choose Repository...",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.rev.pickFrom",
+        "command": "comparekit.rev.pickFrom",
         "title": "Choose From...",
         "category": "Compare",
         "icon": "$(edit)"
       },
       {
-        "command": "vscodeCompare.rev.pickTo",
+        "command": "comparekit.rev.pickTo",
         "title": "Choose To...",
         "category": "Compare",
         "icon": "$(edit)"
       },
       {
-        "command": "vscodeCompare.rev.swap",
+        "command": "comparekit.rev.swap",
         "title": "Swap From and To",
         "category": "Compare",
         "icon": "$(arrow-swap)"
       },
       {
-        "command": "vscodeCompare.rev.compare",
+        "command": "comparekit.rev.compare",
         "title": "Compare Revisions",
         "category": "Compare",
         "icon": "$(git-compare)"
       },
       {
-        "command": "vscodeCompare.rev.showCommit",
+        "command": "comparekit.rev.showCommit",
         "title": "Show Changes in Commit",
         "category": "Compare",
         "icon": "$(diff-multiple)"
       },
       {
-        "command": "vscodeCompare.rev.compareWithWorkingTree",
+        "command": "comparekit.rev.compareWithWorkingTree",
         "title": "Compare with Working Tree",
         "category": "Compare",
         "icon": "$(edit)"
       },
       {
-        "command": "vscodeCompare.rev.setFrom",
+        "command": "comparekit.rev.setFrom",
         "title": "Use as From",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.rev.setTo",
+        "command": "comparekit.rev.setTo",
         "title": "Use as To",
         "category": "Compare"
       },
       {
-        "command": "vscodeCompare.clearSelection",
+        "command": "comparekit.clearSelection",
         "title": "Clear Selection for Compare",
         "category": "Compare"
       }
@@ -152,188 +160,188 @@
     "menus": {
       "editor/title": [
         {
-          "command": "vscodeCompare.compareWith",
-          "when": "resourceScheme == file || activeCustomEditorId =~ /^vscodeCompare\\./",
+          "command": "comparekit.compareWith",
+          "when": "resourceScheme == file || activeCustomEditorId =~ /^comparekit\\./",
           "group": "navigation@90"
         },
         {
-          "command": "vscodeCompare.showAsTable",
+          "command": "comparekit.showAsTable",
           "when": "resourceExtname =~ /^\\.(csv|tsv|tab|psv)$/ && !activeCustomEditorId",
           "group": "navigation@91"
         }
       ],
       "explorer/context": [
         {
-          "submenu": "vscodeCompare.explorer",
+          "submenu": "comparekit.explorer",
           "group": "3_compare@20"
         }
       ],
       "scm/resourceState/context": [
         {
-          "command": "vscodeCompare.openChanges",
+          "command": "comparekit.openChanges",
           "when": "scmProvider == git && scmResourceGroup != merge",
           "group": "navigation@90"
         },
         {
-          "command": "vscodeCompare.resolveConflict",
+          "command": "comparekit.resolveConflict",
           "when": "scmProvider == git && scmResourceGroup == merge",
           "group": "navigation@90"
         }
       ],
       "commandPalette": [
         {
-          "command": "vscodeCompare.selectForCompare",
+          "command": "comparekit.selectForCompare",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.compareWithSelected",
+          "command": "comparekit.compareWithSelected",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.compareSelected",
+          "command": "comparekit.compareSelected",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.openChanges",
+          "command": "comparekit.openChanges",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.resolveConflict",
+          "command": "comparekit.resolveConflict",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.showAsTable",
+          "command": "comparekit.showAsTable",
           "when": "resourceExtname =~ /^\\.(csv|tsv|tab|psv)$/"
         },
         {
-          "command": "vscodeCompare.timelineCompareWorking",
+          "command": "comparekit.timelineCompareWorking",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.timelineComparePrevious",
+          "command": "comparekit.timelineComparePrevious",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.pickRepo",
+          "command": "comparekit.rev.pickRepo",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.showCommit",
+          "command": "comparekit.rev.showCommit",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.compareWithWorkingTree",
+          "command": "comparekit.rev.compareWithWorkingTree",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.setFrom",
+          "command": "comparekit.rev.setFrom",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.setTo",
+          "command": "comparekit.rev.setTo",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.swap",
+          "command": "comparekit.rev.swap",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.pickFrom",
+          "command": "comparekit.rev.pickFrom",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.rev.pickTo",
+          "command": "comparekit.rev.pickTo",
           "when": "false"
         },
         {
-          "command": "vscodeCompare.clearSelection",
-          "when": "vscodeCompare.hasSelection"
+          "command": "comparekit.clearSelection",
+          "when": "comparekit.hasSelection"
         }
       ],
       "timeline/item/context": [
         {
-          "command": "vscodeCompare.timelineCompareWorking",
+          "command": "comparekit.timelineCompareWorking",
           "when": "timelineItem =~ /git:file:commit\\b/",
           "group": "inline_compare@10"
         },
         {
-          "command": "vscodeCompare.timelineComparePrevious",
+          "command": "comparekit.timelineComparePrevious",
           "when": "timelineItem =~ /git:file:commit\\b/",
           "group": "inline_compare@11"
         }
       ],
       "view/item/context": [
         {
-          "command": "vscodeCompare.rev.pickFrom",
-          "when": "view == vscodeCompare.revisionsView && viewItem == rev-from",
+          "command": "comparekit.rev.pickFrom",
+          "when": "view == comparekit.revisionsView && viewItem == rev-from",
           "group": "inline@1"
         },
         {
-          "command": "vscodeCompare.rev.pickTo",
-          "when": "view == vscodeCompare.revisionsView && viewItem == rev-to",
+          "command": "comparekit.rev.pickTo",
+          "when": "view == comparekit.revisionsView && viewItem == rev-to",
           "group": "inline@1"
         },
         {
-          "command": "vscodeCompare.rev.swap",
-          "when": "view == vscodeCompare.revisionsView && viewItem == rev-to",
+          "command": "comparekit.rev.swap",
+          "when": "view == comparekit.revisionsView && viewItem == rev-to",
           "group": "inline@2"
         },
         {
-          "command": "vscodeCompare.rev.showCommit",
-          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "command": "comparekit.rev.showCommit",
+          "when": "view == comparekit.revisionsView && viewItem == commit",
           "group": "1_show@1"
         },
         {
-          "command": "vscodeCompare.rev.compareWithWorkingTree",
-          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "command": "comparekit.rev.compareWithWorkingTree",
+          "when": "view == comparekit.revisionsView && viewItem == commit",
           "group": "1_show@2"
         },
         {
-          "command": "vscodeCompare.rev.setFrom",
-          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "command": "comparekit.rev.setFrom",
+          "when": "view == comparekit.revisionsView && viewItem == commit",
           "group": "2_use@1"
         },
         {
-          "command": "vscodeCompare.rev.setTo",
-          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "command": "comparekit.rev.setTo",
+          "when": "view == comparekit.revisionsView && viewItem == commit",
           "group": "2_use@2"
         },
         {
-          "command": "vscodeCompare.rev.compareWithWorkingTree",
-          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "command": "comparekit.rev.compareWithWorkingTree",
+          "when": "view == comparekit.revisionsView && viewItem == commit",
           "group": "inline@1"
         }
       ],
       "view/title": [
         {
-          "command": "vscodeCompare.rev.compare",
-          "when": "view == vscodeCompare.revisionsView",
+          "command": "comparekit.rev.compare",
+          "when": "view == comparekit.revisionsView",
           "group": "navigation@1"
         },
         {
-          "command": "vscodeCompare.rev.swap",
-          "when": "view == vscodeCompare.revisionsView",
+          "command": "comparekit.rev.swap",
+          "when": "view == comparekit.revisionsView",
           "group": "navigation@2"
         }
       ],
-      "vscodeCompare.explorer": [
+      "comparekit.explorer": [
         {
-          "command": "vscodeCompare.selectForCompare",
+          "command": "comparekit.selectForCompare",
           "when": "!listMultiSelection",
           "group": "1_pair@1"
         },
         {
-          "command": "vscodeCompare.compareWithSelected",
-          "when": "!listMultiSelection && vscodeCompare.hasSelection",
+          "command": "comparekit.compareWithSelected",
+          "when": "!listMultiSelection && comparekit.hasSelection",
           "group": "1_pair@2"
         },
         {
-          "command": "vscodeCompare.compareSelected",
+          "command": "comparekit.compareSelected",
           "when": "listDoubleSelection",
           "group": "1_pair@3"
         },
         {
-          "command": "vscodeCompare.compareWithRevision",
+          "command": "comparekit.compareWithRevision",
           "when": "!listMultiSelection && config.git.enabled",
           "group": "2_git@1"
         }
@@ -341,7 +349,7 @@
     },
     "customEditors": [
       {
-        "viewType": "vscodeCompare.excelViewer",
+        "viewType": "comparekit.excelViewer",
         "displayName": "Excel Viewer (Compare Kit)",
         "priority": "default",
         "selector": [
@@ -354,7 +362,7 @@
         ]
       },
       {
-        "viewType": "vscodeCompare.csvViewer",
+        "viewType": "comparekit.csvViewer",
         "displayName": "Table Viewer (Compare Kit)",
         "priority": "option",
         "selector": [
@@ -376,13 +384,13 @@
     "configuration": {
       "title": "Compare Kit",
       "properties": {
-        "vscodeCompare.maxFileSizeMB": {
+        "comparekit.maxFileSizeMB": {
           "type": "number",
           "default": 50,
           "minimum": 1,
           "description": "Files larger than this (in MB) are not loaded into structured views."
         },
-        "vscodeCompare.formatAssociations": {
+        "comparekit.formatAssociations": {
           "type": "object",
           "default": {},
           "additionalProperties": {
@@ -398,7 +406,7 @@
           },
           "markdownDescription": "Map glob patterns to a compare view, for example `{ \"*.dat\": \"table\" }`."
         },
-        "vscodeCompare.folderExclude": {
+        "comparekit.folderExclude": {
           "type": "array",
           "items": {
             "type": "string"
@@ -414,7 +422,7 @@
     "views": {
       "scm": [
         {
-          "id": "vscodeCompare.revisionsView",
+          "id": "comparekit.revisionsView",
           "name": "Compare Revisions",
           "icon": "$(git-compare)",
           "contextualTitle": "Compare Kit",
@@ -424,7 +432,7 @@
     },
     "submenus": [
       {
-        "id": "vscodeCompare.explorer",
+        "id": "comparekit.explorer",
         "label": "Compare Kit"
       }
     ]

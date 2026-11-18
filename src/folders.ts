@@ -21,7 +21,7 @@ const MAX_FILES = 200_000;
 
 function excludeMatcher(): (path: string) => boolean {
   const config = vscode.workspace.getConfiguration();
-  const own = config.get<string[]>('vscodeCompare.folderExclude', []);
+  const own = config.get<string[]>('comparekit.folderExclude', []);
   const filesExclude = Object.entries(config.get<Record<string, boolean>>('files.exclude', {}))
     .filter(([, on]) => on === true)
     .map(([glob]) => glob);

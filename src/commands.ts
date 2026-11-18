@@ -114,7 +114,7 @@ async function compareWith(arg: unknown): Promise<void> {
 /** Remembers a file or folder for "Compare with Selected", shown in the status bar until cleared. */
 async function setSelection(uri: vscode.Uri | undefined): Promise<void> {
   selected = uri;
-  await vscode.commands.executeCommand('setContext', 'vscodeCompare.hasSelection', !!uri);
+  await vscode.commands.executeCommand('setContext', 'comparekit.hasSelection', !!uri);
   if (!selectionItem) return;
   if (!uri) {
     selectionItem.hide();
@@ -295,13 +295,13 @@ async function timelineCompare(item: GitTimelineItem | undefined, uri: vscode.Ur
 
 async function showAsTable(arg: unknown): Promise<void> {
   const uri = targetUri(arg);
-  if (uri) await vscode.commands.executeCommand('vscode.openWith', uri, 'vscodeCompare.csvViewer');
+  if (uri) await vscode.commands.executeCommand('vscode.openWith', uri, 'comparekit.csvViewer');
 }
 
 export function registerCommands(context: vscode.ExtensionContext): void {
-  selectionItem = vscode.window.createStatusBarItem('vscodeCompare.selection', vscode.StatusBarAlignment.Left, 50);
+  selectionItem = vscode.window.createStatusBarItem('comparekit.selection', vscode.StatusBarAlignment.Left, 50);
   selectionItem.name = 'Compare Kit: Selected for Compare';
-  selectionItem.command = 'vscodeCompare.clearSelection';
+  selectionItem.command = 'comparekit.clearSelection';
   context.subscriptions.push(selectionItem);
   const reg = (id: string, fn: (...args: never[]) => unknown) =>
     context.subscriptions.push(
@@ -313,17 +313,17 @@ export function registerCommands(context: vscode.ExtensionContext): void {
         }
       }),
     );
-  reg('vscodeCompare.compareWith', compareWith);
-  reg('vscodeCompare.compareWithRevision', compareWithRevision);
-  reg('vscodeCompare.selectForCompare', selectForCompare);
-  reg('vscodeCompare.clearSelection', () => setSelection(undefined));
-  reg('vscodeCompare.compareWithSelected', compareWithSelected);
-  reg('vscodeCompare.compareSelected', compareSelected);
-  reg('vscodeCompare.openChanges', openChanges);
-  reg('vscodeCompare.resolveConflict', resolveConflict);
-  reg('vscodeCompare.showAsTable', showAsTable);
-  reg('vscodeCompare.compareBranches', compareBranches);
-  reg('vscodeCompare.compareFolders', compareFolders);
-  reg('vscodeCompare.timelineCompareWorking', (item: GitTimelineItem, uri: vscode.Uri) => timelineCompare(item, uri, false));
-  reg('vscodeCompare.timelineComparePrevious', (item: GitTimelineItem, uri: vscode.Uri) => timelineCompare(item, uri, true));
+  reg('comparekit.compareWith', compareWith);
+  reg('comparekit.compareWithRevision', compareWithRevision);
+  reg('comparekit.selectForCompare', selectForCompare);
+  reg('comparekit.clearSelection', () => setSelection(undefined));
+  reg('comparekit.compareWithSelected', compareWithSelected);
+  reg('comparekit.compareSelected', compareSelected);
+  reg('comparekit.openChanges', openChanges);
+  reg('comparekit.resolveConflict', resolveConflict);
+  reg('comparekit.showAsTable', showAsTable);
+  reg('comparekit.compareBranches', compareBranches);
+  reg('comparekit.compareFolders', compareFolders);
+  reg('comparekit.timelineCompareWorking', (item: GitTimelineItem, uri: vscode.Uri) => timelineCompare(item, uri, false));
+  reg('comparekit.timelineComparePrevious', (item: GitTimelineItem, uri: vscode.Uri) => timelineCompare(item, uri, true));
 }

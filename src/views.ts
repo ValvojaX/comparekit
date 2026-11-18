@@ -36,7 +36,7 @@ class CommitItem extends vscode.TreeItem {
     this.description = [commit.hash.slice(0, 7), commit.authorName, commit.authorDate?.toLocaleDateString()].filter(Boolean).join(' · ');
     this.tooltip = `${commit.hash}\n${commit.authorName ?? ''}${commit.authorDate ? `, ${commit.authorDate.toLocaleString()}` : ''}\n\n${commit.message}`;
     this.contextValue = 'commit';
-    this.command = { command: 'vscodeCompare.rev.showCommit', title: 'Show Changes', arguments: [this] };
+    this.command = { command: 'comparekit.rev.showCommit', title: 'Show Changes', arguments: [this] };
   }
 
   get revision(): Revision {
@@ -114,11 +114,11 @@ export class RevisionsViewProvider implements vscode.TreeDataProvider<RevNode> {
     const { from, to, mergeBase } = this.state;
     const items: RevNode[] = [];
     if (this.repoCount > 1) {
-      items.push(new RevItem('repo', 'Repository', { icon: 'repo', description: vscode.workspace.asRelativePath(repo.rootUri), command: 'vscodeCompare.rev.pickRepo' }));
+      items.push(new RevItem('repo', 'Repository', { icon: 'repo', description: vscode.workspace.asRelativePath(repo.rootUri), command: 'comparekit.rev.pickRepo' }));
     }
     items.push(
-      new RevItem('from', 'From', { icon: 'git-branch', description: from.description, tooltip: 'Shown on the left. Click to choose a branch, tag or commit.', command: 'vscodeCompare.rev.pickFrom' }),
-      new RevItem('to', 'To', { icon: to.ref === WORKING_TREE ? 'edit' : 'git-branch', description: to.description, tooltip: 'Shown on the right. Click to choose a branch, tag, commit or the working tree.', command: 'vscodeCompare.rev.pickTo' }),
+      new RevItem('from', 'From', { icon: 'git-branch', description: from.description, tooltip: 'Shown on the left. Click to choose a branch, tag or commit.', command: 'comparekit.rev.pickFrom' }),
+      new RevItem('to', 'To', { icon: to.ref === WORKING_TREE ? 'edit' : 'git-branch', description: to.description, tooltip: 'Shown on the right. Click to choose a branch, tag, commit or the working tree.', command: 'comparekit.rev.pickTo' }),
     );
     const mode = new RevItem('mode', 'Only changes made on "To"', {
       description: to.ref === WORKING_TREE ? 'not used with the working tree' : 'since it split off "From", like a pull request',
@@ -127,7 +127,7 @@ export class RevisionsViewProvider implements vscode.TreeDataProvider<RevNode> {
     mode.checkboxState = mergeBase ? vscode.TreeItemCheckboxState.Checked : vscode.TreeItemCheckboxState.Unchecked;
     items.push(
       mode,
-      new RevItem('compare', 'Compare', { icon: 'git-compare', description: `${from.description} ↔ ${to.description}`, command: 'vscodeCompare.rev.compare' }),
+      new RevItem('compare', 'Compare', { icon: 'git-compare', description: `${from.description} ↔ ${to.description}`, command: 'comparekit.rev.compare' }),
       new RevItem('commits', 'Recent Commits', { icon: 'history', collapsible: true, description: repo.state.HEAD?.name }),
     );
     return items;
@@ -191,7 +191,7 @@ export class RevisionsViewProvider implements vscode.TreeDataProvider<RevNode> {
 
 export function registerViews(context: vscode.ExtensionContext): RevisionsViewProvider {
   const revisions = new RevisionsViewProvider(context.workspaceState);
-  const tree = vscode.window.createTreeView('vscodeCompare.revisionsView', { treeDataProvider: revisions });
+  const tree = vscode.window.createTreeView('comparekit.revisionsView', { treeDataProvider: revisions });
   const reg = (id: string, fn: (...args: never[]) => unknown) =>
     vscode.commands.registerCommand(id, async (...args: unknown[]) => {
       try {
@@ -207,15 +207,15 @@ export function registerViews(context: vscode.ExtensionContext): RevisionsViewPr
         if (item instanceof RevItem && item.role === 'mode') void revisions.setState({ mergeBase: checked === vscode.TreeItemCheckboxState.Checked });
       }
     }),
-    reg('vscodeCompare.rev.pickRepo', () => revisions.pickRepo()),
-    reg('vscodeCompare.rev.pickFrom', () => revisions.pick('from')),
-    reg('vscodeCompare.rev.pickTo', () => revisions.pick('to')),
-    reg('vscodeCompare.rev.swap', () => revisions.swap()),
-    reg('vscodeCompare.rev.compare', () => revisions.compare()),
-    reg('vscodeCompare.rev.showCommit', (item: CommitItem) => revisions.showCommit(item)),
-    reg('vscodeCompare.rev.compareWithWorkingTree', (item: CommitItem) => revisions.compareWithWorkingTree(item)),
-    reg('vscodeCompare.rev.setFrom', (item: CommitItem) => revisions.setState({ from: item.revision })),
-    reg('vscodeCompare.rev.setTo', (item: CommitItem) => revisions.setState({ to: item.revision })),
+    reg('comparekit.rev.pickRepo', () => revisions.pickRepo()),
+    reg('comparekit.rev.pickFrom', () => revisions.pick('from')),
+    reg('comparekit.rev.pickTo', () => revisions.pick('to')),
+    reg('comparekit.rev.swap', () => revisions.swap()),
+    reg('comparekit.rev.compare', () => revisions.compare()),
+    reg('comparekit.rev.showCommit', (item: CommitItem) => revisions.showCommit(item)),
+    reg('comparekit.rev.compareWithWorkingTree', (item: CommitItem) => revisions.compareWithWorkingTree(item)),
+    reg('comparekit.rev.setFrom', (item: CommitItem) => revisions.setState({ from: item.revision })),
+    reg('comparekit.rev.setTo', (item: CommitItem) => revisions.setState({ to: item.revision })),
   );
   return revisions;
 }

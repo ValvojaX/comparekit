@@ -1,4 +1,4 @@
-// Which view handles a file: by extension, by the vscodeCompare.formatAssociations
+// Which view handles a file: by extension, by the comparekit.formatAssociations
 // setting, or by content (a NUL byte means binary). Everything else is text.
 
 import * as vscode from 'vscode';
@@ -40,7 +40,7 @@ export function globToRegExp(glob: string): RegExp {
 }
 
 function associated(path: string): ViewKind | undefined {
-  const map = vscode.workspace.getConfiguration('vscodeCompare').get<Record<string, ViewKind>>('formatAssociations', {});
+  const map = vscode.workspace.getConfiguration('comparekit').get<Record<string, ViewKind>>('formatAssociations', {});
   for (const [glob, kind] of Object.entries(map)) {
     const re = globToRegExp(glob);
     if (re.test(baseName(path)) || re.test(path)) return kind;

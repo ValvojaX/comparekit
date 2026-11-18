@@ -4,6 +4,8 @@ Compare and merge the files VS Code can't diff on its own: CSV and Excel
 tables, images, ZIP archives and other binary files, plus whole folders and git
 revisions. Text and code keep using VS Code's own diff and merge editors.
 
+![Comparing two versions of a CSV file](images/table-diff.png)
+
 ## Features
 
 | | Compare | Merge (3-way) | View |
@@ -20,6 +22,12 @@ Every compare view has a toolbar, a seam of difference markers, an overview stri
 and a status bar, in the colors and fonts of your VS Code theme.
 **Alt+Down / Alt+Up** (or **F7 / Shift+F7**) move between differences and conflicts.
 
+![Three-way merge of a CSV file with one conflict](images/table-merge.png)
+
+![Image compare with the difference between the two versions](images/image-diff.png)
+
+![Folder compare between two branches](images/folder-diff.png)
+
 ## Starting a comparison
 
 - **Explorer → right-click → Compare Kit**: *Select for Compare* on one file or folder, then *Compare with Selected* on another. The selected item is shown in the status bar (click it to clear). With two items selected, use *Compare Selected*. *Compare with Revision...* compares a file or folder with any git revision.
@@ -32,19 +40,19 @@ and a status bar, in the colors and fonts of your VS Code theme.
 ### Keybindings without pickers
 
 ```jsonc
-{ "key": "ctrl+alt+b", "command": "vscodeCompare.compareBranches", "args": { "from": "main", "to": "HEAD", "mergeBase": true } }
+{ "key": "ctrl+alt+b", "command": "comparekit.compareBranches", "args": { "from": "main", "to": "HEAD", "mergeBase": true } }
 ```
 
-`vscodeCompare.compareBranches` takes `{ from, to?, mergeBase? }` (omit `to` for the working tree);
-`vscodeCompare.compareWithRevision` takes `(uri, ref)`.
+`comparekit.compareBranches` takes `{ from, to?, mergeBase? }` (omit `to` for the working tree);
+`comparekit.compareWithRevision` takes `(uri, ref)`.
 
 ## Settings
 
 | Setting | Default | |
 | --- | --- | --- |
-| `vscodeCompare.maxFileSizeMB` | `50` | Larger files aren't loaded into the compare views |
-| `vscodeCompare.formatAssociations` | `{}` | Map file globs to a view, e.g. `{ "*.dat": "table" }`; `"text"` sends files to VS Code's diff editor |
-| `vscodeCompare.folderExclude` | `**/.git`, `**/node_modules` | Left out of folder comparisons, along with `files.exclude` |
+| `comparekit.maxFileSizeMB` | `50` | Larger files aren't loaded into the compare views |
+| `comparekit.formatAssociations` | `{}` | Map file globs to a view, e.g. `{ "*.dat": "table" }`; `"text"` sends files to VS Code's diff editor |
+| `comparekit.folderExclude` | `**/.git`, `**/node_modules` | Left out of folder comparisons, along with `files.exclude` |
 
 ## Safety
 

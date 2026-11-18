@@ -75,7 +75,7 @@ async function makeRepo(dir: string): Promise<void> {
 
 async function main() {
   const root = resolve(__dirname, '../../..');
-  const work = mkdtempSync(join(tmpdir(), 'vscode-compare-it-'));
+  const work = mkdtempSync(join(tmpdir(), 'comparekit-it-'));
   const repo = join(work, 'repo');
   mkdirSync(repo);
   await makeRepo(repo);
