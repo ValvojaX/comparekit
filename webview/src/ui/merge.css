@@ -1,0 +1,111 @@
+/* 3-way merge. Colour mapping: left change = teal, right change = violet,
+   same change on both sides = steel, conflict = red, hand-edited = amber. */
+
+/* Same metrics as .diff-counter in the text compare toolbar. */
+.merge-counter { font-size: var(--text-sm); color: var(--text-2); padding: 0 var(--space-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.merge-counter.open { color: var(--conflict); font-weight: var(--weight-medium); }
+.merge-counter.done { color: var(--teal); }
+.merge-take { padding: 0 var(--space-2); }
+
+.merge-body { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.merge-top { flex: 1 1 0; min-height: var(--space-16); display: flex; overflow: hidden; }
+.merge-panes { flex: 1; min-width: 0; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+.merge-pane { min-height: 0; }
+.merge-pane + .merge-pane { border-left: 1px solid var(--line-strong); }
+.merge-bottom { flex: 1 1 0; min-height: var(--space-16); display: flex; flex-direction: column; overflow: hidden; }
+.merge-bottom > .pane { min-height: 0; }
+.merge-split { flex: none; height: var(--space-1-5); cursor: row-resize; background: var(--bg); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); position: relative; }
+.merge-split::after {
+  content: ''; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: var(--space-8); height: var(--space-0-5); border-radius: var(--radius-xs); background: var(--line-strong);
+}
+.merge-split:hover, .merge-split:focus-visible { background: var(--accent-soft); outline: none; }
+.merge-outbar { display: flex; align-items: center; gap: var(--space-1); padding-left: var(--space-3); border-bottom: 1px solid var(--line); background: var(--bg); }
+.merge-outbar .pathbar { flex: 1; }
+.merge-outlabel { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text-2); }
+
+/* Input panes */
+.cm-editor .cm-line.cc-m-left { background: var(--teal-bg); }
+.cm-editor .cm-line.cc-m-right { background: var(--violet-bg); }
+.cm-editor .cm-line.cc-m-both { background: var(--steel-bg); }
+.cm-editor .cm-line.cc-m-conflict { background: var(--conflict-bg); }
+.cm-editor .cm-line.cc-m-custom { background: var(--amber-bg); }
+.cm-editor .cm-line.cc-m-base { background: var(--surface-2); }
+.cm-editor .cm-line.cc-m-inbase.cc-m-left { background: var(--merge-left-dim); }
+.cm-editor .cm-line.cc-m-inbase.cc-m-right { background: var(--merge-right-dim); }
+.cm-line.cc-m-dropped { opacity: 0.5; }
+.cm-line.cc-m-cur, .cc-spacer.cc-m-cur { box-shadow: inset var(--accent-bar) 0 0 var(--accent); }
+.cc-m-s-left { background: var(--teal-strong); border-radius: var(--radius-xs); }
+.cc-m-s-right { background: var(--violet-strong); border-radius: var(--radius-xs); }
+.cc-m-s-both { background: var(--steel-strong); border-radius: var(--radius-xs); }
+.cc-m-s-conflict { background: var(--conflict-strong); border-radius: var(--radius-xs); }
+.cc-m-s-base { background: var(--base-strong); border-radius: var(--radius-xs); }
+.cc-spacer.cc-m-pad { background-image: repeating-linear-gradient(-45deg, transparent 0 calc(var(--space-1-5) - 1px), var(--line) 0 var(--space-1-5)); }
+
+/* Output pane: origin bar on the left edge, tinted background. The current
+   chunk adds the accent bar in front of the origin bar. */
+.cm-line.cc-m-out { position: relative; }
+.cm-line.cc-m-out.cc-m-left { box-shadow: inset var(--accent-bar) 0 0 var(--teal); }
+.cm-line.cc-m-out.cc-m-right { box-shadow: inset var(--accent-bar) 0 0 var(--violet); }
+.cm-line.cc-m-out.cc-m-both { box-shadow: inset var(--accent-bar) 0 0 var(--steel); }
+.cm-line.cc-m-out.cc-m-base { box-shadow: inset var(--accent-bar) 0 0 var(--line-strong); }
+.cm-line.cc-m-out.cc-m-custom { box-shadow: inset var(--accent-bar) 0 0 var(--amber); }
+.cm-line.cc-m-out.cc-m-conflict { box-shadow: inset var(--accent-bar) 0 0 var(--conflict); }
+.cm-line.cc-m-out.cc-m-cur { box-shadow: inset var(--accent-bar) 0 0 var(--accent); }
+.cm-line.cc-m-out.cc-m-cur.cc-m-left { box-shadow: inset var(--accent-bar) 0 0 var(--accent), inset calc(var(--accent-bar) * 2) 0 0 var(--teal); }
+.cm-line.cc-m-out.cc-m-cur.cc-m-right { box-shadow: inset var(--accent-bar) 0 0 var(--accent), inset calc(var(--accent-bar) * 2) 0 0 var(--violet); }
+.cm-line.cc-m-out.cc-m-cur.cc-m-custom { box-shadow: inset var(--accent-bar) 0 0 var(--accent), inset calc(var(--accent-bar) * 2) 0 0 var(--amber); }
+.cm-line.cc-m-out.cc-m-cur.cc-m-conflict { box-shadow: inset var(--accent-bar) 0 0 var(--accent), inset calc(var(--accent-bar) * 2) 0 0 var(--conflict); }
+
+/* Unresolved conflict header: a --control-h-sm button strip. */
+.cc-m-head {
+  display: flex; align-items: center; gap: var(--space-1-5); padding: var(--space-0-5) var(--space-2) var(--space-0-5) var(--space-3); margin-top: var(--space-0-5);
+  font: var(--text-sm) var(--font-ui); color: var(--text); background: var(--conflict-bg);
+  border-top: 1px solid var(--conflict-line);
+  box-shadow: inset var(--accent-bar) 0 0 var(--conflict); user-select: none;
+}
+.cc-m-head.cc-m-cur { box-shadow: inset var(--accent-bar) 0 0 var(--accent), inset calc(var(--accent-bar) * 2) 0 0 var(--conflict); }
+.cc-m-tag { font-weight: var(--weight-semibold); color: var(--conflict); white-space: nowrap; }
+.cc-m-note { color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.cc-m-grow { flex: 1; }
+.cc-m-act {
+  display: inline-flex; align-items: center; gap: var(--space-1); height: var(--control-h-sm); padding: 0 var(--space-2); border-radius: var(--radius-md); white-space: nowrap;
+  border: 1px solid var(--line-strong); background: var(--surface); color: var(--text); cursor: pointer; font: var(--text-sm) var(--font-ui);
+}
+.cc-m-act:hover { border-color: var(--accent); color: var(--accent); }
+.cc-m-act.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); font-weight: var(--weight-medium); }
+.cc-m-dot { width: var(--dot-size); height: var(--dot-size); border-radius: var(--radius-xs); display: inline-block; flex: none; }
+.cc-m-dot.left { background: var(--teal); }
+.cc-m-dot.right { background: var(--violet); }
+.cc-m-dot.both { background: var(--steel); }
+.cc-m-dot.base { background: var(--line-strong); }
+
+/* Floating resolution switcher on resolved changes. Its buttons match the
+   seam copy buttons (one step below --control-h-sm) so they fit in a code row. */
+.cc-m-pillhost { position: absolute; right: var(--space-1-5); top: 0; height: 100%; display: flex; align-items: center; z-index: var(--z-raised); pointer-events: none; }
+.cc-m-pill {
+  display: inline-flex; align-items: center; gap: var(--space-0-5); padding: var(--space-px); border-radius: var(--radius-md); background: var(--surface);
+  border: 1px solid var(--line); box-shadow: var(--shadow-pop); opacity: 0; transition: opacity var(--duration-fast); pointer-events: none;
+}
+.cc-m-pill .cc-m-act {
+  height: var(--control-h-xs); padding: 0 var(--space-1-5); font-size: var(--text-xs);
+  border-color: transparent; border-radius: var(--radius-sm); background: transparent; gap: var(--space-1);
+}
+.cc-m-pill .cc-m-act.on { background: var(--accent-soft); border-color: transparent; }
+.cc-m-pill .cc-m-dot { width: var(--space-1-5); height: var(--space-1-5); }
+.cc-m-pillsep { width: 1px; height: var(--space-3); background: var(--line); margin: 0 var(--space-0-5); }
+.cm-line:hover > .cc-m-pillhost .cc-m-pill, .cc-m-pill.show { opacity: 1; pointer-events: auto; }
+.cm-line:hover > .cc-m-pillhost { pointer-events: auto; }
+.cc-m-gap { position: relative; height: var(--space-1); margin: 1px 0; background: repeating-linear-gradient(90deg, var(--line-strong) 0 var(--space-1-5), transparent 0 calc(var(--space-1-5) + var(--space-1))); }
+.cc-m-gap.cc-m-cur { background: repeating-linear-gradient(90deg, var(--accent) 0 var(--space-1-5), transparent 0 calc(var(--space-1-5) + var(--space-1))); }
+.cc-m-gap .cc-m-pill { position: absolute; right: var(--space-1-5); top: 50%; transform: translateY(-50%); }
+.cc-m-gap:hover .cc-m-pill { opacity: 1; pointer-events: auto; }
+
+/* Overview marks (the strip itself is .overview from text.css) */
+.ov-mark.mo-left { background: var(--teal); }
+.ov-mark.mo-right { background: var(--violet); }
+.ov-mark.mo-both { background: var(--steel); }
+.ov-mark.mo-conflict { background: var(--conflict); }
+.ov-mark.mo-resolved { background: var(--conflict); opacity: 0.35; }
+.ov-mark.mo-custom { background: var(--amber); }
+.ov-mark.cur { outline: 1px solid var(--accent); outline-offset: var(--focus-offset); }

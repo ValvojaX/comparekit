@@ -1,0 +1,92 @@
+.tb-body { flex: 1; min-height: 0; display: flex; }
+.tb-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tb-error { flex: none; }
+.tb-spin { width: var(--icon-md); height: var(--icon-md); margin: 0 var(--space-1-5); }
+.tb-keys { display: inline-flex; align-items: center; gap: var(--space-1); font-size: var(--text-sm); color: var(--text-2); padding: 0 var(--space-1-5); }
+/* --tb-row is set by TableView from rowHeight() so the virtualizer and the CSS agree. */
+.tb-scroller {
+  flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; outline: none; position: relative;
+  font: var(--code-size) / var(--tb-row) var(--font-code); background: var(--surface);
+}
+.tb-scroller:focus-visible { box-shadow: inset 0 0 0 var(--focus-width) var(--accent-soft); }
+.tb-empty { min-height: calc(var(--space-10) * 4); font-family: var(--font-ui); }
+.tb-rows { position: relative; }
+
+.tb-row { display: flex; position: absolute; left: 0; right: 0; top: 0; }
+.tb-head {
+  position: sticky; z-index: var(--z-raised); background: var(--bg); border-bottom: 1px solid var(--line); align-items: stretch;
+  font-family: var(--font-ui); font-size: var(--text-sm); color: var(--text-2);
+}
+.tb-half { flex: 1 1 0; min-width: 0; display: flex; position: relative; }
+.tb-num {
+  flex: none; text-align: right; padding-right: 1ch; color: var(--muted); border-right: 1px solid var(--line); font-variant-numeric: tabular-nums;
+  background: var(--bg); font-family: var(--font-code); font-size: calc(var(--code-size) * 0.92);
+}
+.tb-head .tb-num { display: flex; align-items: center; justify-content: flex-end; font-family: var(--font-ui); font-size: var(--text-sm); }
+.tb-clip { flex: 1; min-width: 0; overflow: hidden; }
+.tb-cells { display: flex; width: max-content; height: 100%; will-change: transform; }
+.tb-cell { flex: none; padding: 0 1ch 0 0.75ch; white-space: pre; overflow: hidden; text-overflow: ellipsis; border-right: 1px solid var(--surface-3); }
+.tb-hcell { display: flex; align-items: center; gap: var(--space-1); font-weight: var(--weight-medium); color: var(--text); border-right-color: var(--line); }
+.tb-hcell.missing-col { color: var(--violet); font-weight: var(--weight-regular); font-style: italic; }
+.tb-key { color: var(--amber); flex: none; }
+
+/* Row and cell states */
+.tb-half.tint-removed { background: var(--rose-bg); }
+.tb-half.tint-added { background: var(--teal-bg); }
+.tb-half.cc-hatch .tb-num { background: transparent; }
+.tb-cell.s-different { background: var(--amber-strong); }
+.tb-cell.s-similar { background: var(--steel-bg); box-shadow: inset 0 calc(-1 * var(--border-width-strong)) 0 var(--steel-strong); }
+.tb-cell.s-missing { background: var(--violet-bg); }
+.tb-cell.s-nocol { background-image: var(--hatch); }
+.tb-row.selrow .tb-num { color: var(--accent); }
+.tb-cell.sel { box-shadow: inset 0 0 0 var(--focus-width) var(--accent); }
+
+/* The seam (sizes shared with the hex view, see hex/minimap.css) */
+.tb-seam { flex: none; width: var(--marker-seam-w); background: var(--bg); border-left: 1px solid var(--line); border-right: 1px solid var(--line); display: grid; place-items: center; }
+.tb-mark { width: var(--marker-w); height: calc(100% - var(--space-1)); border-radius: var(--radius-xs); cursor: pointer; }
+.tb-mark.m-changed { background: var(--amber); }
+.tb-mark.m-unimp { background: var(--steel); opacity: 0.7; }
+.tb-mark.m-removed { background: var(--rose); }
+.tb-mark.m-added { background: var(--teal); }
+.tb-seam.current { background: var(--accent-soft); }
+.tb-seam.current .tb-mark { box-shadow: 0 0 0 1px var(--accent); }
+
+/* Shared horizontal scrollbars */
+.tb-hbars { display: flex; flex: none; border-top: 1px solid var(--line); background: var(--bg); font: var(--code-size) var(--font-code); }
+.tb-hbar { flex: 1 1 0; min-width: 0; overflow-x: auto; overflow-y: hidden; height: var(--scrollbar-size); }
+.tb-hbar > div { height: 1px; }
+.tb-seam-bar { height: var(--scrollbar-size); }
+
+/* Selected cell details */
+.tb-detail {
+  flex: none; display: flex; align-items: center; gap: var(--space-3); min-height: var(--control-h-lg); padding: var(--space-1) var(--space-3);
+  border-top: 1px solid var(--line); background: var(--surface); font-size: var(--text-sm); user-select: text; overflow: hidden;
+}
+.tb-d-col { font-weight: var(--weight-semibold); color: var(--text); white-space: nowrap; }
+.tb-d-rows { color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tb-d-val {
+  font-family: var(--font-code); padding: var(--space-px) var(--space-1-5); border-radius: var(--radius-sm); white-space: pre; overflow: hidden;
+  text-overflow: ellipsis; min-width: 0; max-width: 40%;
+}
+.tb-d-val.left { background: var(--rose-bg); }
+.tb-d-val.right { background: var(--teal-bg); }
+.tb-d-val em { color: var(--muted); font-family: var(--font-ui); }
+.tb-d-arrow { color: var(--muted); }
+.tb-d-status { margin-left: auto; color: var(--text-2); white-space: nowrap; }
+.tb-d-hint { color: var(--muted); }
+
+/* Options dialog */
+.tb-grow { flex: 1; }
+.tb-keylist { display: flex; flex-wrap: wrap; gap: var(--space-1-5); margin: var(--space-1-5) 0 var(--space-1); }
+.tb-keychip {
+  display: inline-flex; align-items: center; gap: var(--space-1-5); height: var(--control-h-sm); padding: 0 var(--space-2);
+  border: 1px solid var(--line); border-radius: var(--radius-md); cursor: pointer; font-size: var(--text-sm);
+}
+.tb-keychip input { accent-color: var(--accent); margin: 0; }
+.tb-keychip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+
+/* Status bar swatches */
+.swatch.tb-sw-diff { background: var(--amber); }
+.swatch.tb-sw-unimp { background: var(--steel); }
+.swatch.tb-sw-removed { background: var(--rose); }
+.swatch.tb-sw-added { background: var(--teal); }

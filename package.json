@@ -1,0 +1,481 @@
+{
+  "name": "vscode-compare",
+  "displayName": "Compare Kit",
+  "description": "Compare and merge CSV, Excel, image, ZIP and binary files, folders and git revisions. Text keeps VS Code's own diff and merge editors.",
+  "version": "0.1.0",
+  "publisher": "vscode-compare",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization"
+  ],
+  "main": "./dist/extension.js",
+  "extensionDependencies": [
+    "vscode.git"
+  ],
+  "activationEvents": [],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": "limited",
+      "description": "Git revision comparison needs the built-in git extension."
+    }
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscodeCompare.compareWith",
+        "title": "Compare with...",
+        "category": "Compare",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "vscodeCompare.compareWithRevision",
+        "title": "Compare with Revision...",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.selectForCompare",
+        "title": "Select for Compare",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.compareWithSelected",
+        "title": "Compare with Selected",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.compareSelected",
+        "title": "Compare Selected",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.openChanges",
+        "title": "Open Changes (Compare Kit)",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.resolveConflict",
+        "title": "Resolve in Merge Editor (Compare Kit)",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.showAsTable",
+        "title": "Show as Table",
+        "category": "Compare",
+        "icon": "$(table)"
+      },
+      {
+        "command": "vscodeCompare.compareBranches",
+        "title": "Compare Branches...",
+        "category": "Compare",
+        "icon": "$(git-compare)"
+      },
+      {
+        "command": "vscodeCompare.compareFolders",
+        "title": "Compare Folders...",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.timelineCompareWorking",
+        "title": "Compare with Working Copy (Compare Kit)",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.timelineComparePrevious",
+        "title": "Compare with Previous (Compare Kit)",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.rev.pickRepo",
+        "title": "Choose Repository...",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.rev.pickFrom",
+        "title": "Choose From...",
+        "category": "Compare",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "vscodeCompare.rev.pickTo",
+        "title": "Choose To...",
+        "category": "Compare",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "vscodeCompare.rev.swap",
+        "title": "Swap From and To",
+        "category": "Compare",
+        "icon": "$(arrow-swap)"
+      },
+      {
+        "command": "vscodeCompare.rev.compare",
+        "title": "Compare Revisions",
+        "category": "Compare",
+        "icon": "$(git-compare)"
+      },
+      {
+        "command": "vscodeCompare.rev.showCommit",
+        "title": "Show Changes in Commit",
+        "category": "Compare",
+        "icon": "$(diff-multiple)"
+      },
+      {
+        "command": "vscodeCompare.rev.compareWithWorkingTree",
+        "title": "Compare with Working Tree",
+        "category": "Compare",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "vscodeCompare.rev.setFrom",
+        "title": "Use as From",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.rev.setTo",
+        "title": "Use as To",
+        "category": "Compare"
+      },
+      {
+        "command": "vscodeCompare.clearSelection",
+        "title": "Clear Selection for Compare",
+        "category": "Compare"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "vscodeCompare.compareWith",
+          "when": "resourceScheme == file || activeCustomEditorId =~ /^vscodeCompare\\./",
+          "group": "navigation@90"
+        },
+        {
+          "command": "vscodeCompare.showAsTable",
+          "when": "resourceExtname =~ /^\\.(csv|tsv|tab|psv)$/ && !activeCustomEditorId",
+          "group": "navigation@91"
+        }
+      ],
+      "explorer/context": [
+        {
+          "submenu": "vscodeCompare.explorer",
+          "group": "3_compare@20"
+        }
+      ],
+      "scm/resourceState/context": [
+        {
+          "command": "vscodeCompare.openChanges",
+          "when": "scmProvider == git && scmResourceGroup != merge",
+          "group": "navigation@90"
+        },
+        {
+          "command": "vscodeCompare.resolveConflict",
+          "when": "scmProvider == git && scmResourceGroup == merge",
+          "group": "navigation@90"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "vscodeCompare.selectForCompare",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.compareWithSelected",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.compareSelected",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.openChanges",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.resolveConflict",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.showAsTable",
+          "when": "resourceExtname =~ /^\\.(csv|tsv|tab|psv)$/"
+        },
+        {
+          "command": "vscodeCompare.timelineCompareWorking",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.timelineComparePrevious",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.pickRepo",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.showCommit",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.compareWithWorkingTree",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.setFrom",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.setTo",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.swap",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.pickFrom",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.rev.pickTo",
+          "when": "false"
+        },
+        {
+          "command": "vscodeCompare.clearSelection",
+          "when": "vscodeCompare.hasSelection"
+        }
+      ],
+      "timeline/item/context": [
+        {
+          "command": "vscodeCompare.timelineCompareWorking",
+          "when": "timelineItem =~ /git:file:commit\\b/",
+          "group": "inline_compare@10"
+        },
+        {
+          "command": "vscodeCompare.timelineComparePrevious",
+          "when": "timelineItem =~ /git:file:commit\\b/",
+          "group": "inline_compare@11"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "vscodeCompare.rev.pickFrom",
+          "when": "view == vscodeCompare.revisionsView && viewItem == rev-from",
+          "group": "inline@1"
+        },
+        {
+          "command": "vscodeCompare.rev.pickTo",
+          "when": "view == vscodeCompare.revisionsView && viewItem == rev-to",
+          "group": "inline@1"
+        },
+        {
+          "command": "vscodeCompare.rev.swap",
+          "when": "view == vscodeCompare.revisionsView && viewItem == rev-to",
+          "group": "inline@2"
+        },
+        {
+          "command": "vscodeCompare.rev.showCommit",
+          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "group": "1_show@1"
+        },
+        {
+          "command": "vscodeCompare.rev.compareWithWorkingTree",
+          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "group": "1_show@2"
+        },
+        {
+          "command": "vscodeCompare.rev.setFrom",
+          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "group": "2_use@1"
+        },
+        {
+          "command": "vscodeCompare.rev.setTo",
+          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "group": "2_use@2"
+        },
+        {
+          "command": "vscodeCompare.rev.compareWithWorkingTree",
+          "when": "view == vscodeCompare.revisionsView && viewItem == commit",
+          "group": "inline@1"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "vscodeCompare.rev.compare",
+          "when": "view == vscodeCompare.revisionsView",
+          "group": "navigation@1"
+        },
+        {
+          "command": "vscodeCompare.rev.swap",
+          "when": "view == vscodeCompare.revisionsView",
+          "group": "navigation@2"
+        }
+      ],
+      "vscodeCompare.explorer": [
+        {
+          "command": "vscodeCompare.selectForCompare",
+          "when": "!listMultiSelection",
+          "group": "1_pair@1"
+        },
+        {
+          "command": "vscodeCompare.compareWithSelected",
+          "when": "!listMultiSelection && vscodeCompare.hasSelection",
+          "group": "1_pair@2"
+        },
+        {
+          "command": "vscodeCompare.compareSelected",
+          "when": "listDoubleSelection",
+          "group": "1_pair@3"
+        },
+        {
+          "command": "vscodeCompare.compareWithRevision",
+          "when": "!listMultiSelection && config.git.enabled",
+          "group": "2_git@1"
+        }
+      ]
+    },
+    "customEditors": [
+      {
+        "viewType": "vscodeCompare.excelViewer",
+        "displayName": "Excel Viewer (Compare Kit)",
+        "priority": "default",
+        "selector": [
+          {
+            "filenamePattern": "*.xlsx"
+          },
+          {
+            "filenamePattern": "*.xlsm"
+          }
+        ]
+      },
+      {
+        "viewType": "vscodeCompare.csvViewer",
+        "displayName": "Table Viewer (Compare Kit)",
+        "priority": "option",
+        "selector": [
+          {
+            "filenamePattern": "*.csv"
+          },
+          {
+            "filenamePattern": "*.tsv"
+          },
+          {
+            "filenamePattern": "*.tab"
+          },
+          {
+            "filenamePattern": "*.psv"
+          }
+        ]
+      }
+    ],
+    "configuration": {
+      "title": "Compare Kit",
+      "properties": {
+        "vscodeCompare.maxFileSizeMB": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "description": "Files larger than this (in MB) are not loaded into structured views."
+        },
+        "vscodeCompare.formatAssociations": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "text",
+              "table",
+              "excel",
+              "picture",
+              "archive",
+              "binary"
+            ]
+          },
+          "markdownDescription": "Map glob patterns to a compare view, for example `{ \"*.dat\": \"table\" }`."
+        },
+        "vscodeCompare.folderExclude": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/.git",
+            "**/node_modules"
+          ],
+          "description": "Glob patterns left out of folder comparisons, in addition to files.exclude."
+        }
+      }
+    },
+    "views": {
+      "scm": [
+        {
+          "id": "vscodeCompare.revisionsView",
+          "name": "Compare Revisions",
+          "icon": "$(git-compare)",
+          "contextualTitle": "Compare Kit",
+          "when": "config.git.enabled"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "vscodeCompare.explorer",
+        "label": "Compare Kit"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit -p . && tsc --noEmit -p webview",
+    "test": "vitest run",
+    "package": "node esbuild.mjs --production && vsce package --no-dependencies",
+    "test:integration": "node esbuild.mjs && esbuild test/integration/runTest.ts --bundle --platform=node --format=cjs --outfile=test/integration/out/runTest.js --log-level=warning && esbuild test/integration/suite.ts --bundle --platform=node --format=cjs --external:vscode --outfile=test/integration/out/suite.js --log-level=warning && node test/integration/out/runTest.js",
+    "harness": "esbuild test/harness/make.ts --bundle --platform=node --format=cjs --outfile=test/harness/out/make.cjs --log-level=warning && node test/harness/out/make.cjs test/harness/out && node test/harness/serve.mjs . 47613"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "jszip": "^3.10.2"
+  },
+  "devDependencies": {
+    "@tanstack/react-virtual": "^3.14.21",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/vscode": "1.100.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.1.1",
+    "esbuild": "^0.28.2",
+    "lucide-react": "^1.59.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  },
+  "keywords": [
+    "compare",
+    "diff",
+    "merge",
+    "csv",
+    "excel",
+    "xlsx",
+    "image diff",
+    "hex",
+    "zip",
+    "folder compare",
+    "git"
+  ],
+  "icon": "media/icon.png",
+  "galleryBanner": {
+    "color": "#1f1f1f",
+    "theme": "dark"
+  }
+}

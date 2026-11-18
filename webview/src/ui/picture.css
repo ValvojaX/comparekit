@@ -1,0 +1,56 @@
+.pc-body { flex: 1; min-height: 0; display: flex; position: relative; background: var(--bg); }
+.pc-error { position: absolute; top: 0; left: 0; right: 0; z-index: var(--z-sticky); }
+.pc-pane { flex: 1; min-width: 0; position: relative; overflow: hidden; cursor: grab; outline: none; touch-action: none; }
+.pc-pane.dragging { cursor: grabbing; }
+.pc-pane + .pc-pane { border-left: 1px solid var(--line); }
+.pc-side .pc-pane:nth-child(2) { background: var(--surface-2); }
+.pc-pane.nudgeable:focus-visible { box-shadow: inset 0 0 0 var(--focus-width) var(--focus); }
+.pc-pane.nudgeable:focus .pc-label { color: var(--accent); }
+.pc-label {
+  position: absolute; left: var(--space-2); top: var(--space-2); padding: var(--space-0-5) var(--space-2); border-radius: var(--radius-md);
+  font-size: var(--text-sm); color: var(--text-2); background: var(--surface); border: 1px solid var(--line); pointer-events: none; z-index: var(--z-raised);
+}
+.pc-label.pc-label-right { left: auto; right: var(--space-2); }
+.pc-hint { color: var(--muted); }
+
+/* The stage is scaled by the zoom; --inv (1 / zoom, set by PictureView) keeps
+   the checkerboard and the outline a constant size on screen. */
+.pc-stage { position: absolute; left: 0; top: 0; transform-origin: 0 0; --cs: calc(var(--space-3) * var(--inv, 1)); }
+.pc-img {
+  position: absolute; display: block; max-width: none;
+  background: repeating-conic-gradient(var(--checker-a) 0 25%, var(--checker-b) 0 50%) 0 0 / var(--cs) var(--cs);
+  box-shadow: 0 0 0 calc(1px * var(--inv, 1)) var(--line-strong);
+}
+.pc-img.pc-diff-img { background: none; }
+.pc-stage.pixelated .pc-img { image-rendering: pixelated; }
+.pc-clip { position: absolute; inset: 0; }
+
+/* Overlay slider handle — the seam. */
+.pc-handle {
+  position: absolute; top: 0; bottom: 0; width: var(--space-4); margin-left: calc(-1 * var(--space-2)); cursor: ew-resize;
+  z-index: var(--z-raised); touch-action: none;
+}
+.pc-handle::before {
+  content: ''; position: absolute; left: calc(50% - var(--border-width-strong) / 2); top: 0; bottom: 0; width: var(--border-width-strong);
+  background: var(--accent); box-shadow: 0 0 0 1px var(--surface);
+}
+.pc-grip {
+  position: absolute; top: 50%; left: 50%; width: var(--space-6); height: var(--space-10); transform: translate(-50%, -50%); border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; gap: var(--space-0-5);
+  box-shadow: var(--shadow-pop);
+}
+.pc-grip span { width: var(--border-width-strong); height: var(--space-4); border-radius: var(--radius-xs); background: var(--accent); }
+
+/* Toolbar */
+.pc-zoom { font-size: var(--text-sm); color: var(--text-2); min-width: var(--space-12); text-align: center; font-variant-numeric: tabular-nums; }
+.pc-one { padding: 0 var(--space-2); font-size: var(--text-sm); }
+.pc-range { display: inline-flex; align-items: center; gap: var(--space-1-5); margin: 0 var(--space-1); }
+.pc-range input { width: calc(var(--space-16) + var(--space-6)); accent-color: var(--accent); }
+.pc-num { font-size: var(--text-sm); color: var(--text-2); min-width: var(--space-8); font-variant-numeric: tabular-nums; }
+.pc-offset { color: var(--accent); font-variant-numeric: tabular-nums; }
+.pc-spin { width: var(--icon-md); height: var(--icon-md); margin: 0 var(--space-1-5); }
+
+/* Status bar swatches */
+.swatch.pc-sw-same { background: var(--muted); }
+.swatch.pc-sw-unimp { background: var(--steel); }
+.swatch.pc-sw-important { background: var(--rose); }

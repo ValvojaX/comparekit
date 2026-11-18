@@ -1,0 +1,219 @@
+/*
+ * Design tokens (sizes from CompareCraft's design system) and colors mapped
+ * to VS Code theme variables, so every view follows the current color theme,
+ * including high contrast. Diff meaning is shared by every view: removed/left
+ * = git's deleted color, added/right = git's added color, changed = git's
+ * modified color, orphan = violet, conflict = git's conflicting color.
+ */
+:root {
+  /* Spacing: a 4px grid. Use for padding, margin, gap and offsets. */
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0-5: 2px;
+  --space-1: 4px;
+  --space-1-5: 6px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* Typography */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-lg: 15px;
+  --text-xl: 18px;
+  --text-2xl: 22px;
+  --text-3xl: 26px;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-normal: 1.45;
+  --leading-relaxed: 1.6;
+  /* Code editors: size follows the user's setting; rows use --leading-code. */
+  --leading-code: 1.55;
+  --row-h: 20px;
+  --tracking-tight: -0.01em;
+  --tracking-tighter: -0.02em;
+  --tracking-caps: 0.04em;
+
+  /* Radii */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 999px;
+
+  /* Borders and focus */
+  --border-width: 1px;
+  --border-width-strong: 2px;
+  --focus-width: 2px;
+  --focus-offset: 1px;
+  --accent-bar: 3px;
+
+  /* Component dimensions */
+  /* xs: buttons that sit inside a code row (seam copy, merge pills). */
+  --control-h-xs: 18px;
+  --control-h-sm: 24px;
+  --control-h-md: 28px;
+  --control-h-lg: 32px;
+  --icon-sm: 12px;
+  --icon-md: 14px;
+  --icon-lg: 16px;
+  --icon-xl: 20px;
+  --tabbar-h: 40px;
+  --toolbar-h: 40px;
+  --statusbar-h: 24px;
+  --tab-min-w: 96px;
+  --tab-max-w: 240px;
+  --seam-w: 56px;
+  /* Slim seam with per-row markers (hex, table) and the folder status column. */
+  --marker-seam-w: 24px;
+  --marker-w: 8px;
+  --status-seam-w: 40px;
+  --overview-w: 14px;
+  --gutter-w: 48px;
+  --counter-min-w: 72px;
+  --scrollbar-size: 12px;
+  --swatch-size: 8px;
+  --dot-size: 8px;
+  --sidebar-w: 260px;
+  --palette-w: 620px;
+  --menu-min-w: 200px;
+  --toast-max-w: 420px;
+  --dialog-sm: 460px;
+  --dialog-md: 640px;
+  --dialog-lg: 720px;
+  --dialog-xl: 840px;
+  --content-narrow: 720px;
+  --content-wide: 980px;
+  --field-label-w: 160px;
+  --picker-h: 460px;
+  --measure: 560px;
+  --palette-list-max-h: 416px;
+  --filter-w: 192px;
+  --progress-w: 240px;
+  --panel-min-h: 192px;
+
+  /* Layers */
+  --z-raised: 2;
+  --z-sticky: 10;
+  --z-overlay: 50;
+  --z-menu: 60;
+  --z-toast: 70;
+
+  /* Motion */
+  --duration-fast: 100ms;
+  --duration-normal: 150ms;
+  --duration-slow: 300ms;
+  --duration-spin: 800ms;
+  --duration-pulse: 1000ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Colors and fonts from the VS Code theme */
+  --font-ui: var(--vscode-font-family);
+  --font-code: var(--vscode-editor-font-family);
+  --text-md: var(--vscode-font-size, 13px);
+  --code-size: var(--vscode-editor-font-size, 13px);
+
+  --bg: var(--vscode-sideBar-background, var(--vscode-editor-background));
+  --surface: var(--vscode-editor-background);
+  --surface-2: var(--vscode-list-hoverBackground, color-mix(in srgb, var(--vscode-foreground) 8%, transparent));
+  --surface-3: var(--vscode-toolbar-hoverBackground, color-mix(in srgb, var(--vscode-foreground) 12%, transparent));
+  --line: var(--vscode-editorGroup-border, var(--vscode-panel-border, color-mix(in srgb, var(--vscode-foreground) 15%, transparent)));
+  --line-strong: var(--vscode-contrastBorder, var(--vscode-widget-border, color-mix(in srgb, var(--vscode-foreground) 28%, transparent)));
+  --text: var(--vscode-editor-foreground, var(--vscode-foreground));
+  --text-2: var(--vscode-foreground);
+  --muted: var(--vscode-descriptionForeground);
+  --gray-text: var(--vscode-disabledForeground, var(--vscode-descriptionForeground));
+  --accent: var(--vscode-focusBorder);
+  --accent-soft: var(--vscode-list-inactiveSelectionBackground, color-mix(in srgb, var(--vscode-focusBorder) 25%, transparent));
+  --on-accent: var(--vscode-button-foreground);
+  --focus: var(--vscode-focusBorder);
+
+  --rose: var(--vscode-gitDecoration-deletedResourceForeground, #c74e39);
+  --rose-bg: var(--vscode-diffEditor-removedLineBackground, color-mix(in srgb, var(--rose) 14%, transparent));
+  --rose-strong: var(--vscode-diffEditor-removedTextBackground, color-mix(in srgb, var(--rose) 32%, transparent));
+  --teal: var(--vscode-gitDecoration-addedResourceForeground, #81b88b);
+  --teal-bg: var(--vscode-diffEditor-insertedLineBackground, color-mix(in srgb, var(--teal) 14%, transparent));
+  --teal-strong: var(--vscode-diffEditor-insertedTextBackground, color-mix(in srgb, var(--teal) 32%, transparent));
+  --amber: var(--vscode-gitDecoration-modifiedResourceForeground, #e2c08d);
+  --amber-bg: color-mix(in srgb, var(--amber) 14%, transparent);
+  --amber-strong: color-mix(in srgb, var(--amber) 34%, transparent);
+  --steel: var(--vscode-gitDecoration-ignoredResourceForeground, var(--vscode-descriptionForeground));
+  --steel-bg: color-mix(in srgb, var(--steel) 14%, transparent);
+  --steel-strong: color-mix(in srgb, var(--steel) 34%, transparent);
+  --violet: var(--vscode-charts-purple, #b180d7);
+  --violet-bg: color-mix(in srgb, var(--violet) 14%, transparent);
+  --violet-strong: color-mix(in srgb, var(--violet) 34%, transparent);
+  --conflict: var(--vscode-gitDecoration-conflictingResourceForeground, #e4676b);
+  --conflict-bg: color-mix(in srgb, var(--conflict) 16%, transparent);
+
+  --hover-tint: var(--vscode-list-hoverBackground);
+  --selection-tint: var(--vscode-list-inactiveSelectionBackground);
+  --selection-tint-weak: color-mix(in srgb, var(--vscode-list-inactiveSelectionBackground) 60%, transparent);
+  --merge-left-dim: color-mix(in srgb, var(--teal) 8%, var(--surface));
+  --merge-right-dim: color-mix(in srgb, var(--violet) 8%, var(--surface));
+  --backdrop: color-mix(in srgb, var(--vscode-widget-shadow, #000) 60%, transparent);
+  --checker-a: color-mix(in srgb, var(--vscode-foreground) 10%, var(--surface));
+  --checker-b: var(--surface);
+  --shadow-pop: 0 4px 16px var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+  /* Derived tints for interactive states */
+  --selection-ring: color-mix(in srgb, var(--accent) 25%, transparent);
+  --focus-tint: color-mix(in srgb, var(--focus) 55%, transparent);
+  --active-line: color-mix(in srgb, var(--accent-soft) 45%, transparent);
+  --text-selection: color-mix(in srgb, var(--accent) 28%, transparent);
+  --viewport-tint: color-mix(in srgb, var(--text) 8%, transparent);
+  --danger-hover: color-mix(in srgb, var(--rose-bg) 80%, var(--rose-strong));
+  --conflict-strong: color-mix(in srgb, var(--conflict) 26%, transparent);
+  --conflict-line: color-mix(in srgb, var(--conflict) 45%, transparent);
+  --base-strong: color-mix(in srgb, var(--text) 12%, transparent);
+  --pane-alt: color-mix(in srgb, var(--bg) 70%, var(--surface-3));
+  --label-glass: color-mix(in srgb, var(--surface) 88%, transparent);
+  --halo: color-mix(in srgb, var(--surface) 60%, transparent);
+  --line-faint: color-mix(in srgb, var(--line) 60%, transparent);
+  /* Hatching where one side has no content. */
+  --hatch: repeating-linear-gradient(-45deg, transparent 0 5px, var(--line) 5px 6px);
+
+}
+
+/* Controls look like VS Code's own. */
+.btn { border-radius: var(--radius-sm); }
+.btn:not(.ghost):not(.primary) {
+  background: var(--vscode-button-secondaryBackground, var(--surface-2)); color: var(--vscode-button-secondaryForeground, var(--text));
+  border-color: var(--vscode-button-border, transparent);
+}
+.btn:not(.ghost):not(.primary):hover:not(:disabled) { background: var(--vscode-button-secondaryHoverBackground, var(--surface-3)); }
+.btn.primary { background: var(--vscode-button-background); border-color: var(--vscode-button-border, transparent); color: var(--vscode-button-foreground); }
+.btn.primary:hover:not(:disabled) { background: var(--vscode-button-hoverBackground); border-color: var(--vscode-button-border, transparent); filter: none; }
+.icon-btn { border-radius: var(--radius-sm); color: var(--vscode-icon-foreground, var(--text-2)); }
+.icon-btn:hover:not(:disabled) { background: var(--vscode-toolbar-hoverBackground); }
+.seg { border-radius: var(--radius-sm); border-color: var(--vscode-input-border, var(--line)); background: var(--vscode-input-background); }
+.seg button.on,
+.btn.ghost.cc-on,
+.icon-btn.on {
+  background: var(--vscode-inputOption-activeBackground); color: var(--vscode-inputOption-activeForeground, var(--text));
+  box-shadow: inset 0 0 0 1px var(--vscode-inputOption-activeBorder, transparent);
+}
+.input {
+  border-radius: var(--radius-xs); background: var(--vscode-input-background); color: var(--vscode-input-foreground);
+  border-color: var(--vscode-input-border, transparent);
+}
+.input:focus { border-color: var(--vscode-focusBorder); box-shadow: none; }
+.dialog, .menu {
+  background: var(--vscode-editorWidget-background); color: var(--vscode-editorWidget-foreground, var(--text));
+  border-color: var(--vscode-editorWidget-border, var(--line)); border-radius: var(--radius-md);
+}
+.dialog footer { background: var(--vscode-editorWidget-background); }
+.statusbar { background: var(--vscode-sideBar-background, var(--bg)); }
+.cc-sheet.on { border-bottom-color: var(--vscode-tab-activeBorderTop, var(--vscode-focusBorder)); }
+::-webkit-scrollbar-thumb { background-color: var(--vscode-scrollbarSlider-background); border-radius: 0; border: 0; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--vscode-scrollbarSlider-hoverBackground); }
+::-webkit-scrollbar { width: 10px; height: 10px; } /* VS Code's scrollbar size */

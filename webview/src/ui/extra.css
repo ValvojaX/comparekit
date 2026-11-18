@@ -1,0 +1,143 @@
+/* Pieces CompareCraft doesn't have, written with its tokens: the webview
+   root, worksheet tabs, notes and merge-specific bits shared by the views. */
+#root { position: relative; height: 100%; }
+.grow { flex: 1; }
+.muted { color: var(--muted); }
+
+/* Worksheet tabs (Excel), along the bottom like a spreadsheet. */
+.cc-sheets {
+  flex: none; display: flex; gap: var(--space-0-5); padding: 0 var(--space-2); border-top: 1px solid var(--line);
+  background: var(--bg); overflow-x: auto; scrollbar-width: none;
+}
+.cc-sheet {
+  display: inline-flex; align-items: center; gap: var(--space-1-5); height: var(--control-h-sm); padding: 0 var(--space-3);
+  border: 0; border-bottom: var(--border-width-strong) solid transparent; background: transparent; color: var(--text-2);
+  font-size: var(--text-sm); cursor: pointer; white-space: nowrap;
+}
+.cc-sheet:hover { background: var(--surface-2); }
+.cc-sheet.on { background: var(--surface); color: var(--text); border-bottom-color: var(--accent); }
+.cc-sheet-badge { font-size: var(--text-xs); color: var(--amber); }
+.cc-sheet.missing .cc-sheet-badge { color: var(--violet); }
+.cc-sheet.conflict .cc-sheet-badge { color: var(--conflict); font-weight: var(--weight-semibold); }
+
+.cc-notes { flex: none; }
+
+/* Merge: which side a cell or row came from. */
+.swatch.sw-conflict { background: var(--conflict); }
+.swatch.sw-ours { background: var(--teal); }
+.swatch.sw-theirs { background: var(--violet); }
+.swatch.sw-both { background: var(--amber); }
+.swatch.sw-edited { background: var(--accent); }
+
+/* Single-file views (the table viewer) have one path bar. */
+.pathbars.one { grid-template-columns: 1fr; }
+
+/* A filter field with a leading icon. */
+.cc-filter { position: relative; display: inline-flex; align-items: center; width: var(--filter-w); color: var(--muted); }
+.cc-filter svg { position: absolute; left: var(--space-2); pointer-events: none; }
+.cc-filter .input { width: 100%; padding-left: var(--space-6); }
+
+/* Table viewer: one scrolling pane instead of two synchronized halves. */
+.tv-scroller { overflow-x: auto; }
+.tv-scroller .tb-row { right: auto; min-width: 100%; }
+.tv-scroller .tb-num { position: sticky; left: 0; z-index: var(--z-raised); }
+.tv-sortable { cursor: pointer; }
+.tv-sortable:hover { background: var(--surface-2); }
+.tb-d-val.tv-val { background: var(--surface-2); max-width: 70%; }
+
+/* Column widths are in ch of the code font; header cells keep that font for
+   sizing and show their label in the UI font. */
+.tb-head .tb-num, .tb-head .tb-cell { font-family: var(--font-code); font-size: var(--code-size); }
+.tb-head .tb-num { font-size: calc(var(--code-size) * 0.92); }
+.tb-hname { font-family: var(--font-ui); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; }
+
+/* Folder view: git comparisons have no sizes, so the name takes the whole half. */
+.fc-body .fc-half { grid-template-columns: minmax(0, 1fr) var(--fc-size-w); padding-right: var(--space-2); }
+.fc-nosize .fc-half { grid-template-columns: minmax(0, 1fr); }
+.fc-half .fc-hcell { cursor: default; }
+
+/* ZIP merge: one row per entry, with the result chosen per row. */
+.am-head, .am-row {
+  display: grid; align-items: center; gap: var(--space-2);
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1.4fr) var(--space-16) var(--space-16) var(--space-16) calc(var(--space-16) * 4);
+  padding: 0 var(--space-3);
+}
+.am-head { flex: none; height: var(--control-h-sm); background: var(--bg); border-bottom: 1px solid var(--line); color: var(--muted); font-size: var(--text-sm); scrollbar-gutter: stable; overflow: hidden; }
+.am-scroll { flex: 1; min-height: 0; overflow-y: auto; scrollbar-gutter: stable; }
+.am-rows { position: relative; }
+.am-row { position: absolute; left: 0; right: 0; top: 0; border-bottom: 1px solid var(--line-faint); }
+.am-row:hover { background: var(--hover-tint); }
+.am-row.conflict { background: var(--conflict-bg); box-shadow: inset var(--accent-bar) 0 0 var(--conflict); }
+.am-row.resolved { box-shadow: inset var(--accent-bar) 0 0 var(--accent); }
+.am-row.current { outline: 1px solid var(--accent); outline-offset: -1px; }
+.am-name { display: flex; align-items: center; gap: var(--space-1-5); min-width: 0; font-family: var(--font-code); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.am-note { color: var(--text-2); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.am-note.conflict { color: var(--conflict); font-weight: var(--weight-medium); }
+.am-num { text-align: right; font-family: var(--font-code); font-size: var(--text-xs); color: var(--text-2); font-variant-numeric: tabular-nums; }
+.am-result { display: flex; align-items: center; gap: var(--space-1); }
+.am-result .seg button.am-del.on { background: var(--rose-bg); color: var(--rose); }
+
+/* Whole-file merge: one card per version. */
+.wm-cards { flex: 1; min-height: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-3); padding: var(--space-3); background: var(--bg); overflow: auto; }
+.wm-card {
+  display: flex; flex-direction: column; gap: var(--space-2); min-height: 0; padding: var(--space-3);
+  border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--surface);
+}
+.wm-card.chosen { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+.wm-title { display: flex; align-items: center; gap: var(--space-2); font-weight: var(--weight-semibold); }
+.wm-size { margin-left: auto; font-weight: var(--weight-regular); font-family: var(--font-code); font-size: var(--text-xs); color: var(--muted); }
+.wm-label { color: var(--text-2); font-size: var(--text-sm); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wm-image {
+  flex: 1; min-height: calc(var(--space-16) * 2); display: grid; place-items: center; overflow: hidden; border-radius: var(--radius-md);
+  background: var(--surface-2); color: var(--muted); font-size: var(--text-sm); text-align: center; padding: var(--space-2);
+}
+.wm-image .pc-img { position: static; max-width: 100%; max-height: 100%; object-fit: contain; }
+.wm-card > .btn { align-self: flex-start; }
+
+/* Table merge: where each value came from. Ours is teal and theirs violet,
+   like CompareCraft's merge view; conflicts use --conflict. */
+.tb-cell.mg-ours { background: var(--teal-bg); }
+.tb-cell.mg-theirs { background: var(--violet-bg); }
+.tb-cell.mg-conflict { background: var(--conflict-bg); box-shadow: inset 0 0 0 1px var(--conflict-line); color: var(--conflict); font-weight: var(--weight-medium); cursor: pointer; }
+.tb-cell.mg-resolved { background: var(--accent-soft); }
+.tb-cell.mg-conflict.sel, .tb-cell.mg-resolved.sel { box-shadow: inset 0 0 0 var(--focus-width) var(--accent); }
+.tb-hcell.mg-ours { color: var(--teal); }
+.tb-hcell.mg-theirs { color: var(--violet); }
+.tb-mark.mg-mark-conflict { background: var(--conflict); }
+.tb-mark.mg-mark-resolved { background: var(--accent); }
+.tb-mark.mg-mark-ours { background: var(--teal); }
+.tb-mark.mg-mark-theirs { background: var(--violet); }
+.tb-mark.mg-mark-both { background: var(--amber); }
+.tv-scroller .tb-row > .tb-seam { position: sticky; left: 0; z-index: var(--z-raised); border-left: 0; }
+.tv-scroller .tb-row > .tb-seam + .tb-half .tb-num { left: var(--marker-seam-w); }
+
+/* A conflict block: a bar with the choices, then each side's rows. */
+.mg-banner {
+  flex: 1; display: flex; align-items: center; gap: var(--space-3); padding: 0 var(--space-2); min-width: 0;
+  background: var(--conflict-bg); border-top: 1px solid var(--conflict-line); font-family: var(--font-ui); font-size: var(--text-sm);
+  position: sticky; left: var(--marker-seam-w); max-width: calc(100vw - var(--marker-seam-w) - var(--overview-w));
+}
+.mg-banner.resolved { background: var(--accent-soft); border-top-color: var(--line); }
+.mg-banner-text { color: var(--conflict); font-weight: var(--weight-medium); white-space: nowrap; }
+.mg-banner.resolved .mg-banner-text { color: var(--accent); }
+.mg-banner .seg { background: var(--surface); }
+.mg-side .tb-num { font-family: var(--font-ui); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: var(--tracking-caps); }
+.mg-side.mg-ours { background: var(--merge-left-dim); }
+.mg-side.mg-ours .tb-num { color: var(--teal); }
+.mg-side.mg-theirs { background: var(--merge-right-dim); }
+.mg-side.mg-theirs .tb-num { color: var(--violet); }
+.mg-side.mg-base .tb-num { color: var(--muted); }
+.mg-side.unused { opacity: 0.45; text-decoration: line-through; }
+
+/* Detail bar for resolving a cell. */
+.mg-detail { gap: var(--space-2); }
+.mg-choice { display: inline-flex; align-items: center; gap: var(--space-1); min-width: 0; padding: var(--space-0-5) var(--space-1); border-radius: var(--radius-md); }
+.mg-choice.on { background: var(--accent-soft); }
+.mg-choice .tb-d-val { max-width: calc(var(--space-16) * 3); }
+.mg-choice.mg-ours .tb-d-val { background: var(--teal-bg); }
+.mg-choice.mg-theirs .tb-d-val { background: var(--violet-bg); }
+.mg-choice.mg-base .tb-d-val { background: var(--surface-2); }
+.mg-choice-label { color: var(--text-2); font-weight: var(--weight-medium); }
+.mg-edit { display: inline-flex; align-items: center; gap: var(--space-1); }
+.mg-edit .input { height: var(--control-h-sm); width: calc(var(--space-16) * 2.5); }
+.tb-d-val.mg-val { background: var(--surface-2); }

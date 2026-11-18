@@ -1,0 +1,22 @@
+/* Helpers shared by the hex and table views. */
+.cc-minimap { position: relative; width: var(--overview-w); flex: none; background: var(--bg); border-left: 1px solid var(--line); cursor: pointer; }
+.cc-mm-mark { position: absolute; left: var(--space-0-5); right: var(--space-0-5); min-height: var(--space-0-5); border-radius: var(--radius-xs); }
+.cc-mm-mark.mm-changed { background: var(--amber); }
+.cc-mm-mark.mm-removed { background: var(--rose); }
+.cc-mm-mark.mm-added { background: var(--teal); }
+.cc-mm-mark.mm-unimp { background: var(--steel); opacity: 0.6; }
+.cc-mm-mark.mm-missing { background: var(--violet); }
+.cc-mm-viewport {
+  position: absolute; left: 0; right: 0; border: 1px solid var(--text-2); border-radius: var(--radius-xs); min-height: var(--space-1-5);
+  background: var(--viewport-tint); pointer-events: none;
+}
+
+/* Hatched placeholder used where only the other side has content. */
+.cc-hatch { background-image: var(--hatch); }
+
+/* Toggle state for ghost buttons (matches the text view). */
+.btn.ghost.cc-on { background: var(--accent-soft); color: var(--accent); }
+.cc-counter {
+  font-size: var(--text-sm); color: var(--text-2); min-width: var(--counter-min-w); padding: 0 var(--space-1-5);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}

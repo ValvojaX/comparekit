@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.vsix
+.vscode-test/
+test/harness/out/
+.playwright-mcp/
+test/integration/out/
+.vscode-test/

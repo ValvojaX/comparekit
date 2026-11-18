@@ -1,0 +1,51 @@
+.hx-body { flex: 1; min-height: 0; display: flex; position: relative; }
+.hx-busy { position: absolute; top: var(--space-2); right: var(--space-6); z-index: var(--z-sticky); }
+.hx-scroller { flex: 1; min-width: 0; overflow: auto; outline: none; font: var(--code-size) / var(--hx-row) var(--font-code); background: var(--surface); }
+.hx-scroller:focus-visible { box-shadow: inset 0 0 0 var(--focus-width) var(--accent-soft); }
+.hx-spacer { width: max-content; min-width: 100%; position: relative; }
+.hx-layer { position: sticky; top: 0; overflow: hidden; }
+.hx-rows { will-change: transform; }
+.hx-rows > .hx-row { height: var(--hx-row); }
+
+.hx-row { display: flex; width: max-content; min-width: 100%; white-space: pre; }
+.hx-head { position: relative; z-index: var(--z-raised); align-items: center; background: var(--bg); border-bottom: 1px solid var(--line); color: var(--muted); font-size: var(--text-xs); }
+.hx-head .hx-off { font-family: var(--font-ui); font-size: var(--text-xs); text-align: left; }
+.hx-ascii-head { font-family: var(--font-ui); font-size: var(--text-xs); }
+
+.hx-side { flex: 1 0 auto; display: flex; align-items: stretch; padding-right: var(--space-3); }
+.hx-off { flex: none; color: var(--muted); padding: 0 1ch 0 1.2ch; text-align: right; box-sizing: content-box; border-right: 1px solid var(--line); margin-right: 0.5ch; }
+.hx-row:not(.hx-head) .hx-off { font-variant-numeric: tabular-nums; }
+.hx-bytes { display: flex; flex: none; }
+.hx-b { width: 3ch; text-align: center; flex: none; color: var(--text); }
+.hx-b.grp { margin-right: 1ch; }
+.hx-b.zero { color: var(--gray-text); }
+.hx-ascii { display: flex; flex: none; margin-left: 1.5ch; padding-left: 1ch; border-left: 1px solid var(--line); }
+.hx-a { width: 1ch; flex: none; text-align: center; color: var(--text-2); }
+
+/* Difference colors */
+.hx-b.k-changed, .hx-a.k-changed { background: var(--amber-strong); color: var(--text); }
+.hx-b.k-removed, .hx-a.k-removed { background: var(--rose-strong); color: var(--text); }
+.hx-b.k-added, .hx-a.k-added { background: var(--teal-strong); color: var(--text); }
+.hx-b.gap, .hx-a.gap { background-color: var(--surface); }
+
+/* Hover links the same position on both sides; the cursor is the clicked byte. */
+.hx-b.hover, .hx-a.hover { box-shadow: inset 0 0 0 1px var(--accent); }
+.hx-b.cursor, .hx-a.cursor { box-shadow: inset 0 0 0 var(--focus-width) var(--accent); }
+.hx-b.hover:not(.k-changed):not(.k-removed):not(.k-added):not(.gap) { background: var(--accent-soft); }
+
+/* The seam: a slim center column with a marker for every differing row. */
+.hx-seam { flex: none; width: var(--marker-seam-w); background: var(--bg); border-left: 1px solid var(--line); border-right: 1px solid var(--line); position: relative; display: grid; place-items: center; }
+.hx-row:not(.hx-head) .hx-seam { cursor: default; }
+.hx-mark { width: var(--marker-w); height: calc(100% - var(--space-1)); border-radius: var(--radius-xs); cursor: pointer; }
+.hx-mark.k-changed { background: var(--amber); }
+.hx-mark.k-removed { background: var(--rose); }
+.hx-mark.k-added { background: var(--teal); }
+.hx-seam.current { background: var(--accent-soft); }
+.hx-seam.current .hx-mark { box-shadow: 0 0 0 1px var(--accent); }
+
+.hx-stat-mono { font-family: var(--font-code); font-size: var(--text-xs); }
+
+/* Equal bytes inside a merged (approximate) difference range. */
+.hx-b.k-approx, .hx-a.k-approx { background: var(--amber-bg); color: var(--text-2); }
+.hx-err { color: var(--rose); }
+.swatch.hx-sw-diff { background: var(--amber); }
